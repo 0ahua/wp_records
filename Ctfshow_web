@@ -1,0 +1,14 @@
+##########萌新赛##########
+1、给她
+tips：本站靶场默认开启https，删除s切换回http 如何用bp抓https?
+(1)题目‘给她’提示的是git ---> git源码泄露
+(2)扫一下网站目录 ---> https://06f4300b-96b2-4c85-a830-79efb40157d3.challenge.ctf.show/.git/HEAD 
+(3)下载文件内容 ---> 能够下载  也证明是git源码泄露 使用GitHack工具https://github.com/lijiejie/GitHack
+(4)python GitHack.py http://06f4300b-96b2-4c85-a830-79efb40157d3.challenge.ctf.show/.git/ ---> 下载hint.php
+(5)此处考察的是sprintf格式化字符串漏洞 ---> https://blog.csdn.net/nzjdsds/article/details/82156123
+  <?php
+    $pass=sprintf("and pass='%s'",addslashes($_GET['pass']));
+    $sql=sprintf("select * from user where name='%s' $pass",addslashes($_GET['name']));
+   ?>
+(6)Payload:name=admin&pass=1%1$'or 1=1%23
+(7)观察Cookie发现可以传入文件名，将flag的十六进制填进去，发包，即可得到flag的值
